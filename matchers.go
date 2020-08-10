@@ -248,6 +248,9 @@ func matchHTTP2Field(w io.Writer, r io.Reader, name string, matches func(string)
 			if err := framer.WriteSettings(); err != nil {
 				return false
 			}
+			
+			// send true because grpc.Dial will stuck in timeout
+			return true
 		case *http2.ContinuationFrame:
 			if _, err := hdec.Write(f.HeaderBlockFragment()); err != nil {
 				return false
